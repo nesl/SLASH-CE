@@ -206,10 +206,10 @@ def slash_mnist_addition():
     #load data
     #if we are using spns we need to flatten the data(Tensor has form [bs, 784])
     if args.use_pc: 
-        transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5,), (0.5, )), transforms.Lambda(lambda x: torch.flatten(x))])
+        transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081, )), transforms.Lambda(lambda x: torch.flatten(x))])
     #if not we can keep the dimensions(Tensor has form [bs,28,28])
     else: 
-        transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5,), (0.5, ))]) 
+        transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081, ))]) 
     data_path = 'data/labels/train_data_s'+str(i_num)+'.txt'
 
     mnist_addition_dataset = MNIST_Addition(torchvision.datasets.MNIST(root='./data/', train=True, download=True, transform=transform), data_path, i_num, args.use_pc)
