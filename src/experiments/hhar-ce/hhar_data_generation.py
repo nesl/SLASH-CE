@@ -67,26 +67,6 @@ fsm_list = [Event0(), Event1()]
 n_event_class = 3 
 
 
-def generate_complex_event(x_data, y_label, n_event_data):
-    imu_indices = list(range(len(x_data)))
-    # rng = random.Random(0)
-    # rng.shuffle(imu_indices)
-
-    dataset_iter = iter(imu_indices)
-    arity = 3
-    
-    data = []
-    try:
-        while dataset_iter:
-            data.append(
-                [
-                    next(dataset_iter) for _ in range(arity)
-                ]
-            )
-    except StopIteration:
-        pass
-
-
     
 def complex_func(x: List[int]) -> int:
     """Generatr pattern labels for a 3-number MNIST sequence""" 

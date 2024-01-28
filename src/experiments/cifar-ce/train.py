@@ -16,12 +16,13 @@ from torch.utils.tensorboard import SummaryWriter
 from torchvision.transforms import transforms
 import torchvision
 
+
 import numpy as np
 
 #own modules
 from dataGen import MNIST_CE_Pattern
 from einsum_wrapper import EiNet
-from network_nn import Net_nn
+from network_nn import CNN2D, ResNet50
 
 #import slash
 from slash import SLASH
@@ -34,6 +35,7 @@ from rtpt import RTPT
 # set up visible cuda devices
 import os
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
+torch.cuda.empty_cache()
 
 print("...done")
 
@@ -53,7 +55,7 @@ def get_args():
     )
     parser.add_argument(
         "--network-type",
-        choices=["nn","pc"],
+        choices=["cnn","resnet","pc"],
         help="The type of external to be used e.g. neural net or probabilistic circuit",
     )
     parser.add_argument(
@@ -218,8 +220,12 @@ def slash_mnist_addition():
         else:
             print("pc structure learner unknown")
 
+    elif args.network_type == 'resnet':
+        m = ResNet50(N)
+        m = m.to('cuda')
+
     else:
-        m = Net_nn(N)    
+        m = CNN2D(N)    
 
     
     #trainable paramas
@@ -260,19 +266,15 @@ def slash_mnist_addition():
     cifar_train_data = torchvision.datasets.CIFAR10(root='./data/', train=True, download=True, transform=transform)
     cifar_test_data = torchvision.datasets.CIFAR10(root='./data/', train=False, download=True, transform=transform)
 
-    cifar_train_data.targets = torch.tensor(cifar_train_data.targets)
-    cifar_test_data.targets = torch.tensor(cifar_test_data.targets)
+    cifar_train_data.targets = np.array(cifar_train_data.targets)
+    cifar_test_data.targets = np.array(cifar_test_data.targets)
 
     n_cifar_class = 4
 
-    train_filter = cifar_train_data.targets < 0
-    for i in range(n_cifar_class):
-        train_filter = train_filter | (cifar_train_data.targets==i)
+    train_filter = (cifar_train_data.targets==0) | (cifar_train_data.targets==1) | (cifar_train_data.targets==2) | (cifar_train_data.targets==3)
     cifar_train_data.data, cifar_train_data.targets = cifar_train_data.data[train_filter], cifar_train_data.targets[train_filter]
 
-    test_filter = cifar_test_data.targets < 0
-    for i in range(n_cifar_class):
-        test_filter = test_filter | (cifar_test_data.targets==i)
+    test_filter = (cifar_test_data.targets==0) | (cifar_test_data.targets==1) | (cifar_test_data.targets==2) | (cifar_test_data.targets==3)
     cifar_test_data.data, cifar_test_data.targets = cifar_test_data.data[test_filter], cifar_test_data.targets[test_filter]
 
 
