@@ -19,7 +19,7 @@ import torchvision
 import numpy as np
 
 #own modules
-from dataGen import MNIST_CE_Pattern
+from dataGen import IMU_CE_Pattern, IMUDataset
 from einsum_wrapper import EiNet
 from network_nn import Net_nn
 
@@ -251,25 +251,23 @@ def slash_mnist_addition():
     #load data
     #if we are using spns we need to flatten the data(Tensor has form [bs, 784])
     if args.use_pc: 
-        transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5,), (0.5, )), transforms.Lambda(lambda x: torch.flatten(x))])
+        transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5), (0.5)), transforms.Lambda(lambda x: torch.flatten(x))])
     #if not we can keep the dimensions(Tensor has form [bs,28,28])
     else: 
-        transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5,), (0.5, ))]) 
+        transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5), (0.5))]) 
     data_path = 'data/labels/train_data_s'+str(i_num)+'.txt'
 
-    mnist_train_data = torchvision.datasets.MNIST(root='./data/', train=True, download=True, transform=transform)
-    mnist_test_data = torchvision.datasets.MNIST(root='./data/', train=False, download=True, transform=transform)
+    x_prim_train, y_prim_train = np.load("./data/train.pkl",allow_pickle=True)
+    x_prim_test, y_prim_test = np.load("./data/test.pkl",allow_pickle=True)
 
-    train_filter = (mnist_train_data.targets==0) | (mnist_train_data.targets==1) | (mnist_train_data.targets==2) | (mnist_train_data.targets==3)
-    mnist_train_data.data, mnist_train_data.targets = mnist_train_data.data[train_filter], mnist_train_data.targets[train_filter]
-    test_filter = (mnist_test_data.targets==0) | (mnist_test_data.targets==1) | (mnist_test_data.targets==2) | (mnist_test_data.targets==3)
-    mnist_test_data.data, mnist_test_data.targets = mnist_test_data.data[test_filter], mnist_test_data.targets[test_filter]
+    primitive_train_data = IMUDataset(x_prim_train, y_prim_train, transforms=transform)
+    primitive_test_data = IMUDataset(x_prim_test, y_prim_test, transforms=transform)
 
-    mnist_ce_dataset = MNIST_CE_Pattern(mnist_train_data, data_path, i_num, args.use_pc)
-    train_dataset_loader = torch.utils.data.DataLoader(mnist_ce_dataset, shuffle=True,batch_size=args.batch_size,pin_memory=True, num_workers=8)
+    imu_ce_dataset = IMU_CE_Pattern(primitive_train_data, data_path, i_num, args.use_pc)
+    train_dataset_loader = torch.utils.data.DataLoader(imu_ce_dataset, shuffle=True,batch_size=args.batch_size,pin_memory=True, num_workers=8)
     
-    test_loader = torch.utils.data.DataLoader(mnist_test_data, batch_size=100, shuffle=True)
-    train_loader = torch.utils.data.DataLoader(mnist_train_data, batch_size=100, shuffle=True)
+    test_loader = torch.utils.data.DataLoader(primitive_test_data, batch_size=100, shuffle=True)
+    train_loader = torch.utils.data.DataLoader(primitive_train_data, batch_size=100, shuffle=True)
 
     
     # Evaluate the performanve directly after initialisation

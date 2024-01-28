@@ -1,8 +1,8 @@
 #!/bin/bash
 
-DEVICE=$1
-SEED=$2 # 0, 1, 2, 3, 4
-CREDENTIALS=$3
+DEVICE=1
+SEED=2 # 0, 1, 2, 3, 4
+CREDENTIALS=3
 
 
 # 0.00001, 0.0001,  0.001, 0.01
