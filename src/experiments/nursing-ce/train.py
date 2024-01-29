@@ -21,7 +21,7 @@ import numpy as np
 #own modules
 from dataGen import IMU_CE_Pattern, IMUDataset
 from einsum_wrapper import EiNet
-from network_nn import Net_nn
+from network_nn import CNN1D, CRNN
 
 #import slash
 from slash import SLASH
@@ -53,7 +53,7 @@ def get_args():
     )
     parser.add_argument(
         "--network-type",
-        choices=["nn","pc"],
+        choices=["cnn","crnn","pc"],
         help="The type of external to be used e.g. neural net or probabilistic circuit",
     )
     parser.add_argument(
@@ -218,8 +218,10 @@ def slash_mnist_addition():
         else:
             print("pc structure learner unknown")
 
+    if args.network_type == 'cnn':
+        m = CNN1D(N)
     else:
-        m = Net_nn(N)    
+        m = CRNN(N)    
 
     
     #trainable paramas
