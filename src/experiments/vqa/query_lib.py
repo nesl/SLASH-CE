@@ -10,7 +10,7 @@ import pickle
 import os
 import subprocess
 
-from transformer import DetailTransformer, SimpleTransformer
+from transformers import DetailTransformer, SimpleTransformer
 from preprocess import Query
 from knowledge_graph import KG, RULES
 

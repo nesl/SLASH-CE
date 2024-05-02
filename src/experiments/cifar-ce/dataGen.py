@@ -17,6 +17,14 @@ class MNIST_CE_Pattern(Dataset):
 
     
     def __getitem__(self, index):
+        # for debugging
+        if self.num_i == 1:
+            i1, l = self.data[index]
+            l = ':- not event(i1, {}).'.format(l)
+            if self.flat_for_pc:
+                return {'i1': self.dataset[i1][0].flatten()}, l
+            else:
+                return {'i1': self.dataset[i1][0]}, l
         if self.num_i == 2:
             i1, i2, l = self.data[index]
             l = ':- not event(i1, i2, {}).'.format(l)

@@ -22,7 +22,7 @@ n_event_class = 3
 fsm_list = [Event0(), Event1()]
 
 def complex_func(x: List[int]) -> int:
-    """Generatr pattern labels for a 3-number MNIST sequence""" 
+    """Generate pattern labels for a 3-number MNIST sequence""" 
     for e in fsm_list:
         if e.check(x) is True: return e.label
     return n_event_class - 1
@@ -126,6 +126,7 @@ class MNISTOperator(Dataset):
         ]
         # Then compute the expected value:
         expected_result = self.operator(ground_truth)
+        # expected_result = ground_truth[0] # for debugging
         return expected_result
 
     def __len__(self):

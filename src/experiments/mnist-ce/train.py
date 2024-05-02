@@ -21,7 +21,7 @@ import numpy as np
 #own modules
 from dataGen import MNIST_CE_Pattern
 from einsum_wrapper import EiNet
-from network_nn import Net_nn, Net_nn_simple
+from network_nn import Net_nn, Net_nn_simple, ResNet50
 
 #import slash
 from slash import SLASH
@@ -53,7 +53,7 @@ def get_args():
     )
     parser.add_argument(
         "--network-type",
-        choices=["nn","nn_simple","pc"],
+        choices=["nn","nn_simple","pc","resnet"],
         help="The type of external to be used e.g. neural net or probabilistic circuit",
     )
     parser.add_argument(
@@ -221,6 +221,9 @@ def slash_mnist_addition():
     elif args.network_type == 'nn_simple':
         m = Net_nn_simple(N)
         
+    elif args.network_type == 'resnet':
+        m = ResNet50(N)
+
     else:
         m = Net_nn(N)    
 

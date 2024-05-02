@@ -119,6 +119,78 @@ def slash_mnist_addition():
     i_num = 3
     N = 4
 
+    # program = '''
+    #     input(i1,0).
+    #     img(X) :- input(X,_).
+    #     npp(digit(1,X), [0,1,2,3]) :- img(X).
+    #     event(A,ID) :- digit(0,+A,-Y), Y == ID.
+    # '''
+    
+    # program = '''
+    #     input(i1,0). input(i2,1).
+    #     img(X) :- input(X,_).
+    #     npp(digit(1,X), [0,1,2,3]) :- img(X).
+
+
+    #     arc_0(a0,A,a1) :- digit(0,+A,-Y), Y == 1.
+
+    #     arc_0(a0,A,a0) :- digit(0,+A,-Y), Y == 0.
+    #     arc_0(a0,A,a0) :- digit(0,+A,-Y), Y == 2.
+    #     arc_0(a0,A,a0) :- digit(0,+A,-Y), Y == 3.
+
+
+    #     arc_0(a1,A,a2) :- digit(0,+A,-Y), Y == 3.
+
+    #     arc_0(a1,A,a1) :- digit(0,+A,-Y), Y == 0.
+    #     arc_0(a1,A,a1) :- digit(0,+A,-Y), Y == 1.
+    #     arc_0(a1,A,a1) :- digit(0,+A,-Y), Y == 2.
+
+    #     arc_0(a2,A,a0) :- digit(0,+A,-Y), Y == 0.
+    #     arc_0(a2,A,a0) :- digit(0,+A,-Y), Y == 1.
+    #     arc_0(a2,A,a0) :- digit(0,+A,-Y), Y == 2.
+    #     arc_0(a2,A,a0) :- digit(0,+A,-Y), Y == 3.
+
+    #     current_0(a0,0).
+    #     current_0(Y, T') :- arc_0(X,A,Y), current_0(X,T), input(A,T), T'==T+1.
+    #     reach_0(X) :- current_0(X,_).
+    #     event_0(A0, A1) :- input(A0,0), input(A1,1), reach_0(a2).
+
+
+
+    #     arc_1(b0,A,b1) :- digit(0,+A,-Y), Y == 0.
+
+    #     arc_1(b0,A,b0) :- digit(0,+A,-Y), Y == 1.
+    #     arc_1(b0,A,b0) :- digit(0,+A,-Y), Y == 2.
+    #     arc_1(b0,A,b0) :- digit(0,+A,-Y), Y == 3.
+
+
+    #     arc_1(b1,A,b2) :- digit(0,+A,-Y), Y == 2.
+
+    #     arc_1(b1,A,b1) :- digit(0,+A,-Y), Y == 0.
+    #     arc_1(b1,A,b1) :- digit(0,+A,-Y), Y == 1.
+    #     arc_1(b1,A,b1) :- digit(0,+A,-Y), Y == 3.
+
+
+    #     arc_1(b2,A,b0) :- digit(0,+A,-Y), Y == 0.
+    #     arc_1(b2,A,b0) :- digit(0,+A,-Y), Y == 1.
+    #     arc_1(b2,A,b0) :- digit(0,+A,-Y), Y == 2.
+    #     arc_1(b2,A,b0) :- digit(0,+A,-Y), Y == 3.
+
+    #     current_1(b0,0).
+    #     current_1(Y, T') :- arc_1(X,A,Y), current_1(X,T), input(A,T), T'==T+1.
+    #     reach_1(X) :- current_1(X,_).
+    #     event_1(A0, A1) :- input(A0,0), input(A1,1), reach_1(b2).
+
+    #     isEvent(A0,A1) :- event_0(A0,A1).
+    #     isEvent(A0,A1) :- event_1(A0,A1).
+
+    #     event(A0,A1,ID) :- event_0(A0,A1), ID == 0.
+    #     event(A0,A1,ID) :- event_1(A0,A1), ID == 1.
+
+    #     event(A0,A1,ID) :- not isEvent(A0,A1), ID == 2.
+
+    #    '''
+
     program = '''
         input(i1,0). input(i2,1). input(i3,2).
         img(X) :- input(X,_).
@@ -130,7 +202,6 @@ def slash_mnist_addition():
         arc_0(a0,A,a0) :- digit(0,+A,-Y), Y == 0.
         arc_0(a0,A,a0) :- digit(0,+A,-Y), Y == 2.
         arc_0(a0,A,a0) :- digit(0,+A,-Y), Y == 3.
-        arc_0(a0,A,a0) :- digit(0,+A,-Y), Y == 4.
 
 
         arc_0(a1,A,a2) :- digit(0,+A,-Y), Y == 3.
@@ -138,16 +209,14 @@ def slash_mnist_addition():
         arc_0(a1,A,a1) :- digit(0,+A,-Y), Y == 0.
         arc_0(a1,A,a1) :- digit(0,+A,-Y), Y == 1.
         arc_0(a1,A,a1) :- digit(0,+A,-Y), Y == 2.
-        arc_0(a1,A,a1) :- digit(0,+A,-Y), Y == 4.
 
         arc_0(a2,A,a0) :- digit(0,+A,-Y), Y == 0.
         arc_0(a2,A,a0) :- digit(0,+A,-Y), Y == 1.
         arc_0(a2,A,a0) :- digit(0,+A,-Y), Y == 2.
         arc_0(a2,A,a0) :- digit(0,+A,-Y), Y == 3.
-        arc_0(a2,A,a0) :- digit(0,+A,-Y), Y == 4.
 
         current_0(a0,0).
-        current_0(Y, T') :- arc_0(X,A,Y), current_0(X,T), input(A,T), T'==T+1.
+        current_0(Y, T1) :- arc_0(X,A,Y), current_0(X,T), input(A,T), T1==T+1.
         reach_0(X) :- current_0(X,_).
         event_0(A0, A1, A2) :- input(A0,0), input(A1,1), input(A2,2), reach_0(a2).
 
@@ -158,7 +227,6 @@ def slash_mnist_addition():
         arc_1(b0,A,b0) :- digit(0,+A,-Y), Y == 1.
         arc_1(b0,A,b0) :- digit(0,+A,-Y), Y == 2.
         arc_1(b0,A,b0) :- digit(0,+A,-Y), Y == 3.
-        arc_1(b0,A,b0) :- digit(0,+A,-Y), Y == 4.
 
 
         arc_1(b1,A,b2) :- digit(0,+A,-Y), Y == 2.
@@ -166,17 +234,15 @@ def slash_mnist_addition():
         arc_1(b1,A,b1) :- digit(0,+A,-Y), Y == 0.
         arc_1(b1,A,b1) :- digit(0,+A,-Y), Y == 1.
         arc_1(b1,A,b1) :- digit(0,+A,-Y), Y == 3.
-        arc_1(b1,A,b1) :- digit(0,+A,-Y), Y == 4.
 
 
         arc_1(b2,A,b0) :- digit(0,+A,-Y), Y == 0.
         arc_1(b2,A,b0) :- digit(0,+A,-Y), Y == 1.
         arc_1(b2,A,b0) :- digit(0,+A,-Y), Y == 2.
         arc_1(b2,A,b0) :- digit(0,+A,-Y), Y == 3.
-        arc_1(b2,A,b0) :- digit(0,+A,-Y), Y == 4.
 
         current_1(b0,0).
-        current_1(Y, T') :- arc_1(X,A,Y), current_1(X,T), input(A,T), T'==T+1.
+        current_1(Y, T1) :- arc_1(X,A,Y), current_1(X,T), input(A,T), T1==T+1.
         reach_1(X) :- current_1(X,_).
         event_1(A0, A1, A2) :- input(A0,0), input(A1,1), input(A2,2), reach_1(b2).
 
@@ -189,7 +255,7 @@ def slash_mnist_addition():
         event(A0,A1,A2,ID) :- not isEvent(A0,A1,A2), ID == 2.
 
         '''
-
+    
     exp_name= str(args.method)+"/" +args.network_type+"_i"+str(i_num)+"_k"+ str(args.k)
 
     saveModelPath = 'data/'+exp_name+'/slash_digit_ce_models_seed'+str(args.seed)+'.pt'
@@ -268,8 +334,6 @@ def slash_mnist_addition():
 
     cifar_train_data.targets = np.array(cifar_train_data.targets)
     cifar_test_data.targets = np.array(cifar_test_data.targets)
-
-    n_cifar_class = 4
 
     train_filter = (cifar_train_data.targets==0) | (cifar_train_data.targets==1) | (cifar_train_data.targets==2) | (cifar_train_data.targets==3)
     cifar_train_data.data, cifar_train_data.targets = cifar_train_data.data[train_filter], cifar_train_data.targets[train_filter]

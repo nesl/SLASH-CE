@@ -14,7 +14,7 @@ K=0 #1,3,5,10
 CUDA_VISIBLE_DEVICES=$DEVICE python3 train.py \
 --epochs 30 \
 --batch-size 100 --seed 42 --method=$METHOD --images-per-ce=3 --k=$K \
---network-type nn --lr 0.005 \
+--network-type resnet --lr 0.001 \
 --num-workers 0 --p-num 8 --credentials $CREDENTIALS
 
 

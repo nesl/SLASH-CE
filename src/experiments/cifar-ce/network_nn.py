@@ -20,6 +20,7 @@ class CNN2D(nn.Module):
         x = F.relu(self.fc1(x))
         x = F.relu(self.fc2(x))
         x = self.fc3(x)
+        x = F.softmax(x, dim=1)
         return x
 
 '''
@@ -128,6 +129,7 @@ class ResNet(nn.Module):
         out = F.avg_pool2d(out, 4)
         out = out.view(out.size(0), -1)
         out = self.linear(out)
+        out = F.softmax(out, dim=1)
         return out
 
 
@@ -137,6 +139,6 @@ def ResNet50(N):
 
 
 def test():
-    net = ResNet18()
+    net = ResNet50()
     y = net(torch.randn(1, 3, 32, 32))
     print(y.size())

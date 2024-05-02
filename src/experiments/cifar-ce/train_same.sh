@@ -4,18 +4,18 @@ DEVICE=1
 SEED=2 # 0, 1, 2, 3, 4
 CREDENTIALS=3
 
-METHOD=same # same, top_k, exact
-K=0 #1,3,5,10
+METHOD=top_k # same, top_k, exact
+K=10 #1,3,5,10
 
 #-------------------------------------------------------------------------------#
 # Train MNIST with SAME
 
 
 CUDA_VISIBLE_DEVICES=$DEVICE python3 train.py \
---epochs 100 \
+--epochs 2000 \
 --batch-size 100 --seed 42 --method=$METHOD --images-per-ce=3 --k=$K \
---network-type cnn --lr 0.001 \
---num-workers 0 --p-num 15 --credentials $CREDENTIALS
+--network-type resnet --lr 0.0001 \
+--num-workers 0 --p-num 8 --credentials $CREDENTIALS
 
 
 
